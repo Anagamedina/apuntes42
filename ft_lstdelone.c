@@ -6,7 +6,7 @@
 /*   By: anamedin <anamedin@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:01:40 by anamedin          #+#    #+#             */
-/*   Updated: 2024/05/01 13:26:43 by anamedin         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:15:22 by anamedin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,40 @@ typedef struct s_list
 
 }					t_list;
 
-void del(void *content)
+void	del(void *content)
 {
-    free(content);
+	free(content);
 }
 
-void ft_lstdelone(t_list *lst, void (*del)(void*))
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	(* del)(lst->content);
+	del(lst->content);
+	//del(lst);
 	free(lst);
 }
 
-
-void ft_free(t_list *lst)
+void ft_free(t_list **lst)
 {
 	t_list *tmp;
-	while (lst != NULL)
+
+	while (*lst != NULL)
 	{
-		tmp = lst;
-		lst = lst->next;
-		//del(tmp->content);
+		tmp = *lst;
+		*lst = (*lst)->next;
 		free(tmp);
 	}
 }
 
+
 int main (void)
 {
-	t_list *lista = (t_list *) malloc(sizeof(t_list));		
-	t_list *node1 = (t_list *) malloc(sizeof(t_list));
-    t_list *node2 = (t_list *) malloc(sizeof(t_list));
-    t_list *node3 = (t_list *) malloc(sizeof(t_list));
-    t_list *node4 = (t_list *) malloc(sizeof(t_list));
+	t_list	*lista = (t_list *) malloc(sizeof(t_list));		
+	t_list	*node1 = (t_list *) malloc(sizeof(t_list));
+    t_list	*node2 = (t_list *) malloc(sizeof(t_list));
+    t_list	*node3 = (t_list *) malloc(sizeof(t_list));
+    t_list	*node4 = (t_list *) malloc(sizeof(t_list));
 
+	// RELLENAR CONTENIDO DE LOS NODOS
      node1->content = "10";
 	 node1->next = NULL;
 
@@ -76,7 +78,22 @@ int main (void)
 	 node2->next = node3;
 	 node3->next = node4;
 
-	 //aplicamos funcion
-	 ft_lstdelone(node2, &del);
-	 ft_free(lista);
+	// REDIRECCIONAS EL NODO ANTERIOR :
+	node1->next = node2->next;
+	node1->next = node3;
+
+	t_list	*tmp = lista;
+	int i;
+
+	i = 0;
+    while (tmp != NULL)
+	{
+		if (tmp->next == node2)
+			ft_lstdelone(node2, del);
+		printf("nodo[%d]: %s\n", i, tmp->content);
+		tmp = tmp->next;
+		i++;
+    }
+	ft_free(&lista);
+    return (0);
 }
