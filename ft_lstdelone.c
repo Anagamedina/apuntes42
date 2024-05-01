@@ -6,7 +6,7 @@
 /*   By: anamedin <anamedin@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:01:40 by anamedin          #+#    #+#             */
-/*   Updated: 2024/05/01 17:15:22 by anamedin         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:22:37 by anamedin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void ft_free(t_list **lst)
 int main (void)
 {
 	t_list	*lista = (t_list *) malloc(sizeof(t_list));		
+	//t_list	*lista = NULL;		
 	t_list	*node1 = (t_list *) malloc(sizeof(t_list));
     t_list	*node2 = (t_list *) malloc(sizeof(t_list));
     t_list	*node3 = (t_list *) malloc(sizeof(t_list));
