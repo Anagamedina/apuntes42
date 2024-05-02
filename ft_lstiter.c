@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamedin <anamedin@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 12:01:40 by anamedin          #+#    #+#             */
-/*   Updated: 2024/05/01 22:36:17 by anamedin         ###   ########.fr       */
+/*   Created: 2024/05/02 16:04:39 by anamedin          #+#    #+#             */
+/*   Updated: 2024/05/02 19:17:09 by anamedin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
 
-//lst: el nodo a liberar.
-//del: un puntero a la función utilizada para liberar el contenido del nodo
-//t_list *lst: Un puntero a una estructura de datos del tipo t_list
-//void (*del)(void *): Un puntero a una función que toma un puntero void * 
-//como argumento y no devuelve nada
+//lst:un puntero al primer nodo
+//f:un puntero a la funcion que utilizara cada nodo
+//itera la lista y aplica la funcion f en el contenido de cada nodo 
+
+
 
 typedef struct s_list
 {
@@ -28,32 +30,15 @@ typedef struct s_list
 
 }					t_list;
 
-void	del(void *content)
-{
-	free(content);
-}
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
-{
-	if (lst)
-	{
-		del(lst->content);
-		free(lst);
-	}
-}
-
-void ft_free(t_list **lst)
+void ft_lstiter(t_list *lst, void(*f)(void *))
 {
 	t_list *tmp;
-	while (*lst != NULL)
+	tmp = lst;
+	while(tmp != NULL)
 	{
-		tmp = *lst;
-		*lst = (*lst)->next;
-		printf("%s\n", tmp->content);
-
-		//printf("%s\n", (*lst)->content);
-		//free(tmp);
-		ft_lstdelone(tmp, del);
+		f(tmp->content);
+		tmp = tmp->next;
 	}
 }
 
@@ -68,6 +53,19 @@ t_list *ft_lstnew (void *content)
 	return (new_nodo);
 
 }
+void ft_free(t_list **lst)
+{
+	t_list *tmp;
+
+	while (*lst != NULL)
+	{
+		tmp = *lst;
+		*lst = (*lst)->next;
+		free(tmp->content);
+		free(tmp);
+	}
+}
+
 int main (void)
 {
 	t_list *lista = ft_lstnew(strdup(""));
@@ -82,14 +80,14 @@ int main (void)
 	node2->next = node3;
 	node3->next = node4;
 
-	// REDIRECCIONAS EL NODO ANTERIOR :
-	node1->next = node3;
 
-	//imprimir contenido antes de eliminar
-	printf("%s\n", node2->content);
-
-	//eliminar  nodo
-	ft_lstdelone(node2, del);
+	//aplicar funcion x:
+	ft_lstiter(lista,(void *)printf);
+	//ft_lstiter(lista, (void *)ft_multiplar);
+	
+	printf("despues de aplicar funcion: %s", (char *)lista->content);
+	
+	//RECORRER LISTA:
 
 	t_list	*tmp = lista;
 	int i;
