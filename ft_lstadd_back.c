@@ -6,7 +6,7 @@
 /*   By: anamedin <anamedin@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:51:32 by anamedin          #+#    #+#             */
-/*   Updated: 2024/04/30 20:10:47 by anamedin         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:29:22 by anamedin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,16 @@ int main (void)
 	node1->next = node2;
 	node2->next = node3;
 
+
+	t_list *tmp2 = lista;
+	int i = 0;
+	while (tmp2 != NULL)
+	{
+		printf("nodos antes de funcion[%d]: %s\n", i , tmp2->content);
+		tmp2 = tmp2->next;
+		i++;
+	}
+
 	t_list *new_nodo = (t_list *) malloc(sizeof(t_list));
 
 	new_nodo->content = "75";
@@ -71,7 +81,7 @@ int main (void)
 
 	ft_lstadd_back(&lista, new_nodo);
 	t_list *temp = lista;
-	int i = 0;
+	i = 0;
 	while (temp != NULL)
 	{
 		printf("nodo[%d]: %s\n", i, temp->content);
